@@ -36,6 +36,7 @@ export function Nav() {
   return (
     <>
       <header
+        style={{ paddingTop: "env(safe-area-inset-top, 0px)" }}
         className={cn(
           "fixed inset-x-0 top-0 z-50 transition-all duration-500",
           scrolled
@@ -124,8 +125,9 @@ export function Nav() {
 
       {/* Mobile menu sheet — rendered as a Nav sibling so its z-index is unconstrained */}
       <div
+        style={{ top: "calc(76px + env(safe-area-inset-top, 0px))" }}
         className={cn(
-          "fixed inset-x-0 top-[76px] z-[70] origin-top transform-gpu transition-all duration-300 lg:hidden",
+          "fixed inset-x-0 z-[70] origin-top transform-gpu transition-all duration-300 lg:hidden",
           open
             ? "pointer-events-auto translate-y-0 opacity-100"
             : "pointer-events-none -translate-y-2 opacity-0",

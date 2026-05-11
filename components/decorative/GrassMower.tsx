@@ -134,8 +134,11 @@ export function GrassMower() {
     <div
       ref={stripRef}
       aria-hidden="true"
-      className="pointer-events-none fixed inset-x-0 bottom-0 z-20 h-[60px] select-none overflow-hidden"
-      style={{ contain: "layout paint" }}
+      className="pointer-events-none fixed inset-x-0 bottom-0 z-20 select-none overflow-hidden"
+      style={{
+        height: "calc(60px + env(safe-area-inset-bottom, 0px))",
+        contain: "layout paint",
+      }}
     >
       {BLADES.map((b, i) => (
         <div
