@@ -25,6 +25,21 @@ export function Star({ className, ...props }: SVGProps<SVGSVGElement>) {
   );
 }
 
+export function FiveStar({ className, ...props }: SVGProps<SVGSVGElement>) {
+  return (
+    <svg
+      viewBox="0 0 100 100"
+      fill="currentColor"
+      xmlns="http://www.w3.org/2000/svg"
+      aria-hidden="true"
+      className={className}
+      {...props}
+    >
+      <path d="M50 5 L61.2 34.6 L97.6 34.6 L68.2 55.9 L79.4 90.5 L50 69.1 L20.6 90.5 L31.8 55.9 L2.4 34.6 L38.8 34.6 Z" />
+    </svg>
+  );
+}
+
 export function Sparkle({ className, ...props }: SVGProps<SVGSVGElement>) {
   return (
     <svg

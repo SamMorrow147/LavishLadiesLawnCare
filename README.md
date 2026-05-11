@@ -104,7 +104,7 @@ components/
   FloatingQuoteButton.tsx
   sections/            # Hero, About, Services, WhyChooseUs, Gallery, Testimonials, QuoteCTA, Footer
   ui/                  # Button, SectionHeading, Container, FadeUp
-  decorative/          # Bow, Star, Petal/Leaf, PetalDrift, BowDivider, SocialIcons
+  decorative/          # Star/FiveStar, Sparkle, Petal/Leaf, PetalDrift, FlowerDivider, SocialIcons
 lib/
   cn.ts                # className helper
 public/

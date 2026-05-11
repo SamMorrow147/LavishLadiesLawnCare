@@ -1,8 +1,8 @@
 import type { Metadata, Viewport } from "next";
 import { Poiret_One, Poppins } from "next/font/google";
 import { Nav } from "@/components/Nav";
-import { MorphingLogo } from "@/components/MorphingLogo";
 import { FloatingQuoteButton } from "@/components/FloatingQuoteButton";
+import { GrassMower } from "@/components/decorative/GrassMower";
 import "./globals.css";
 
 const display = Poiret_One({
@@ -82,8 +82,8 @@ export default function RootLayout({
           Skip to content
         </a>
         <Nav />
-        <MorphingLogo />
         <main id="main">{children}</main>
+        <GrassMower />
         <FloatingQuoteButton />
       </body>
     </html>

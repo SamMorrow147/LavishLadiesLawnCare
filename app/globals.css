@@ -69,6 +69,79 @@ html {
   scroll-behavior: smooth;
 }
 
+/* Hero first-paint reveal: pure CSS, runs on initial paint, no JS.
+   `backwards` fill-mode holds the start state during animation-delay
+   so the stagger reads cleanly even on a slow first paint. */
+@keyframes heroFadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@layer components {
+  .hero-reveal {
+    animation-name: heroFadeUp;
+    animation-duration: 0.7s;
+    animation-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
+    animation-fill-mode: backwards;
+  }
+
+  /* Section reveals: SSR ships content fully visible. JS in FadeUp only
+     applies `reveal-hidden` once it has confirmed the element is below
+     the fold, so the user can never see the hide. Strictly one-shot. */
+  .reveal-base {
+    transition-property: opacity, transform;
+    transition-duration: 0.6s;
+    transition-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
+    will-change: opacity, transform;
+  }
+
+  .reveal-hidden {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+
+  .reveal-in {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* GrassMower blades. Each blade carries its own `--blade-skew` for
+     individual character; toggling `.cut` collapses the blade with a
+     CSS-only transition. No JS animation per frame. */
+  .grass-blade {
+    transform-origin: 50% 100%;
+    transform: skewX(var(--blade-skew, 0deg)) scaleY(1);
+    transition: transform 0.45s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .grass-blade.cut {
+    transform: skewX(var(--blade-skew, 0deg)) scaleY(0.22);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-reveal,
+  .reveal-base {
+    animation: none;
+    transition: none;
+  }
+  .reveal-hidden,
+  .reveal-in {
+    opacity: 1;
+    transform: none;
+  }
+  .grass-blade,
+  .grass-blade.cut {
+    transition: none;
+    transform: skewX(var(--blade-skew, 0deg)) scaleY(1);
+  }
+}
+
 @utility text-balance {
   text-wrap: balance;
 }

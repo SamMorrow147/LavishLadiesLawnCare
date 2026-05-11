@@ -1,23 +1,33 @@
 "use client";
 
 import Image from "next/image";
-import { useSyncExternalStore } from "react";
-import {
-  ReactCompareSlider,
-  ReactCompareSliderImage,
-} from "react-compare-slider";
+import dynamic from "next/dynamic";
 import { Container } from "@/components/ui/Container";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { FadeUp } from "@/components/ui/FadeUp";
-import { ChevronsLeftRight } from "lucide-react";
 
-const subscribe = () => () => {};
-const useIsClient = () =>
-  useSyncExternalStore(
-    subscribe,
-    () => true,
-    () => false,
-  );
+// react-compare-slider emits hydration-mismatching inline styles, so we
+// never let it render on the server. The loading state is the actual
+// "After" image at the same aspect ratio — visually identical to the
+// slider's resting state — so there is no flash when it mounts.
+const BeforeAfterSlider = dynamic(
+  () => import("./BeforeAfterSlider"),
+  {
+    ssr: false,
+    loading: () => (
+      <div className="relative aspect-[16/9] w-full overflow-hidden">
+        <Image
+          src="/compressed/After.png"
+          alt="Yard after Lavish Ladies Lawn Care"
+          fill
+          sizes="(min-width: 1024px) 960px, 100vw"
+          className="object-cover"
+          priority
+        />
+      </div>
+    ),
+  },
+);
 
 type GalleryItem = {
   src: string;
@@ -27,58 +37,21 @@ type GalleryItem = {
 
 const ITEMS: GalleryItem[] = [
   {
-    src: "https://images.unsplash.com/photo-1416879595882-3373a0480b5b?auto=format&fit=crop&w=900&q=80",
+    src: "/compressed/sharpedges.png",
     alt: "Polished garden pathway with trimmed edges",
     caption: "Sharp edges & walkways",
   },
   {
-    src: "https://images.unsplash.com/photo-1611843467160-25afb8df1074?auto=format&fit=crop&w=900&q=80",
-    alt: "Charming front porch with lush landscaping",
+    src: "/compressed/Curbappeal.png",
+    alt: "Charming curb appeal with lush landscaping",
     caption: "Curb appeal that wows",
   },
   {
-    src: "https://images.unsplash.com/photo-1592194996308-7b43878e84a6?auto=format&fit=crop&w=900&q=80",
-    alt: "Pink garden flowers in bloom",
+    src: "/compressed/GardenBeds.png",
+    alt: "Garden beds in bloom",
     caption: "Garden beds in bloom",
   },
 ];
-
-function BeforeAfter() {
-  const isClient = useIsClient();
-
-  if (!isClient) {
-    return (
-      <div
-        className="aspect-[16/9] w-full animate-pulse bg-pink-blush/40"
-        aria-hidden="true"
-      />
-    );
-  }
-
-  return (
-    <ReactCompareSlider
-      className="aspect-[16/9]"
-      handle={
-        <div className="flex h-12 w-12 items-center justify-center rounded-full bg-cream text-pink-deep shadow-bloom ring-2 ring-pink-primary">
-          <ChevronsLeftRight className="h-5 w-5" />
-        </div>
-      }
-      itemOne={
-        <ReactCompareSliderImage
-          src="https://images.unsplash.com/photo-1605000797499-95a51c5269ae?auto=format&fit=crop&w=1400&q=80"
-          alt="Yard before — overgrown and a little messy"
-          style={{ filter: "saturate(0.85) brightness(0.92)" }}
-        />
-      }
-      itemTwo={
-        <ReactCompareSliderImage
-          src="https://images.unsplash.com/photo-1558904541-efa843a96f01?auto=format&fit=crop&w=1400&q=80"
-          alt="Yard after — freshly mowed, clean edges, polished result"
-        />
-      }
-    />
-  );
-}
 
 export function Gallery() {
   return (
@@ -95,7 +68,7 @@ export function Gallery() {
 
         <FadeUp delay={0.1} className="mt-14">
           <div className="relative overflow-hidden rounded-[2rem] shadow-bloom ring-1 ring-pink-soft/60">
-            <BeforeAfter />
+            <BeforeAfterSlider />
             <div className="pointer-events-none absolute left-5 top-5 rounded-full bg-cream/90 px-3 py-1 text-xs font-medium uppercase tracking-[0.25em] text-ink-soft backdrop-blur-sm">
               Before
             </div>
@@ -123,6 +96,7 @@ export function Gallery() {
                       alt={item.alt}
                       fill
                       sizes="(min-width: 1024px) 33vw, (min-width: 640px) 55vw, 82vw"
+                      loading="eager"
                       className="object-cover transition-transform duration-700 group-hover:scale-[1.04]"
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-pink-deep/55 via-pink-deep/10 to-transparent" />

@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { Menu, X, Phone } from "lucide-react";
@@ -43,8 +44,22 @@ export function Nav() {
         )}
       >
         <nav className="mx-auto flex w-full max-w-7xl items-center justify-between px-6 py-4 md:px-10 lg:px-14">
-          {/* Reserved space for the morphing logo (rendered separately from layout root) */}
-          <div className="h-12 w-16 flex-shrink-0" aria-hidden="true" />
+          <Link
+            href="#top"
+            aria-label="Lavish Ladies Lawn Care home"
+            className="flex flex-shrink-0 items-center"
+          >
+            <Image
+              src="/Logo.png"
+              alt="Lavish Ladies Lawn Care"
+              width={895}
+              height={545}
+              priority
+              sizes="120px"
+              className="block h-10 w-auto select-none sm:h-12"
+              style={{ aspectRatio: "895 / 545" }}
+            />
+          </Link>
 
           <ul
             className={cn(

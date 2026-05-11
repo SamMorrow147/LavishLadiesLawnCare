@@ -2,7 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { Phone, Mail, MapPin } from "lucide-react";
 import { Container } from "@/components/ui/Container";
-import { Bow } from "@/components/decorative/Bow";
+import { FiveStar } from "@/components/decorative/Star";
 import { InstagramIcon, FacebookIcon } from "@/components/decorative/SocialIcons";
 
 const QUICK_LINKS = [
@@ -50,10 +50,11 @@ export function Footer() {
               <Image
                 src="/Logo.png"
                 alt="Lavish Ladies Lawn Care"
-                width={260}
-                height={84}
+                width={895}
+                height={545}
+                loading="eager"
                 className="select-none"
-                style={{ height: "64px", width: "auto" }}
+                style={{ height: "72px", width: "auto", aspectRatio: "895 / 545" }}
               />
             </Link>
             <p className="mt-5 text-sm leading-relaxed text-ink/80 text-pretty">
@@ -148,7 +149,7 @@ export function Footer() {
 
         <div className="mt-14 flex flex-col items-center gap-4 border-t border-cream/50 pt-8 sm:flex-row sm:justify-between">
           <p className="flex items-center gap-2 text-xs text-ink/70">
-            <Bow className="h-4 w-4" />
+            <FiveStar className="h-3.5 w-3.5 text-pink-deep" />
             &copy; {new Date().getFullYear()} Lavish Ladies Lawn Care. All
             rights reserved.
           </p>

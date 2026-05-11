@@ -1,9 +1,8 @@
-import { Bow } from "@/components/decorative/Bow";
-import { Star } from "@/components/decorative/Star";
+import { FiveStar, Star } from "@/components/decorative/Star";
 import { cn } from "@/lib/cn";
 import type { ReactNode } from "react";
 
-type Accent = "bow" | "star" | "none";
+type Accent = "star" | "twinkle" | "none";
 
 type Props = {
   eyebrow?: string;
@@ -17,8 +16,8 @@ type Props = {
 };
 
 const ACCENTS: Record<Exclude<Accent, "none">, ReactNode> = {
-  bow: <Bow className="h-8 w-8" />,
-  star: <Star className="h-9 w-9" />,
+  star: <FiveStar className="h-8 w-8 text-pink-deep" />,
+  twinkle: <Star className="h-9 w-9" />,
 };
 
 export function SectionHeading({
@@ -31,7 +30,7 @@ export function SectionHeading({
   className,
 }: Props) {
   const resolvedAccent: Accent =
-    accent ?? (withBow === false ? "none" : "bow");
+    accent ?? (withBow === false ? "none" : "star");
 
   return (
     <div

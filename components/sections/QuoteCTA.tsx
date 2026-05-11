@@ -6,7 +6,7 @@ import { Container } from "@/components/ui/Container";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { FadeUp } from "@/components/ui/FadeUp";
 import { Button } from "@/components/ui/Button";
-import { Bow } from "@/components/decorative/Bow";
+import { FiveStar } from "@/components/decorative/Star";
 import { FlowerBanner } from "@/components/decorative/FlowerDivider";
 
 const JOTFORM_ID = process.env.NEXT_PUBLIC_JOTFORM_ID ?? "";
@@ -23,6 +23,7 @@ function JotformEmbed({ formId }: { formId: string }) {
     iframe.src = `https://form.jotform.com/${formId}`;
     iframe.frameBorder = "0";
     iframe.scrolling = "no";
+    iframe.loading = "eager";
     iframe.style.cssText =
       "min-width:100%;max-width:100%;height:680px;border:none;";
     const node = containerRef.current;
@@ -40,7 +41,7 @@ function QuoteFormPlaceholder() {
     <div className="relative overflow-hidden rounded-3xl bg-cream p-8 shadow-bloom ring-1 ring-pink-soft/60 md:p-10">
       <div className="mb-6 flex items-center gap-3">
         <span className="flex h-12 w-12 items-center justify-center rounded-2xl bg-pink-blush">
-          <Bow className="h-7 w-7" />
+          <FiveStar className="h-6 w-6 text-pink-deep" />
         </span>
         <div>
           <p className="font-display text-2xl text-ink leading-none">
