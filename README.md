@@ -1,36 +1,119 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Lavish Ladies Lawn Care
 
-## Getting Started
+Marketing site for Lavish Ladies Lawn Care of Alexandria, MN. Soft spring boutique aesthetic — pastel pinks + sage + cream, Poiret One headings + Poppins body, drifting petals, and a signature pink bow motif.
 
-First, run the development server:
+## Stack
+
+- Next.js 16 (App Router) + TypeScript
+- Tailwind CSS v4 (theme tokens in `app/globals.css`)
+- `motion` (Framer Motion) for fade-ups, hover lifts, drifting petals
+- `lucide-react` for line icons
+- `react-compare-slider` for the before/after gallery
+
+## Run
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+npm install
+npm run dev      # http://localhost:3000
+npm run build    # production build
+npm run lint
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Drop-in customization
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+Everything below is wired up with placeholders so the site looks complete out of the box. Swap them in any time.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+### 1. Logo
 
-## Learn More
+The bow + wordmark in the nav and footer are rendered as SVG components, so they'll always look crisp. When you have the real raster logo, drop it at `public/logo.png` and replace the bow/wordmark spans inside `components/Nav.tsx` and `components/sections/Footer.tsx` with:
 
-To learn more about Next.js, take a look at the following resources:
+```tsx
+import Image from "next/image";
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+<Image src="/logo.png" alt="Lavish Ladies Lawn Care" width={180} height={48} priority />
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+A vector placeholder lives at `public/logo-placeholder.svg` if you want to preview a horizontal lockup.
 
-## Deploy on Vercel
+### 2. Jotform quote form
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+The quote section (`components/sections/QuoteCTA.tsx`) shows a friendly placeholder until you provide a Jotform form ID. To turn it on:
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+1. Create a `.env.local` at the project root.
+2. Add:
+
+   ```
+   NEXT_PUBLIC_JOTFORM_ID=YOUR_FORM_ID
+   ```
+
+   (the numeric ID from your Jotform embed URL, e.g. `233651234567899`)
+
+3. Restart `npm run dev`. The form will replace the placeholder card automatically.
+
+### 3. Phone, email, social
+
+Search-and-replace these placeholders across the project:
+
+| Placeholder                          | Where it appears                          |
+| ------------------------------------ | ----------------------------------------- |
+| `(320) 555-0000` / `+13205550000`    | Nav, QuoteCTA, Footer                     |
+| `hello@lavishladieslawncare.com`     | QuoteCTA, Footer                          |
+| `https://instagram.com/`             | Footer                                    |
+| `https://facebook.com/`              | Footer                                    |
+| `lavishladieslawncare.com` (SITE_URL)| `app/layout.tsx` metadata                 |
+
+### 4. Real photos
+
+Stock imagery is hot-linked from `images.unsplash.com`. To use real photos:
+
+1. Drop them in `public/photos/` (e.g. `public/photos/hero.jpg`).
+2. In `components/sections/Hero.tsx`, `About.tsx`, `WhyChooseUs.tsx`, and `Gallery.tsx`, replace the `https://images.unsplash.com/...` URLs with `/photos/your-file.jpg`.
+3. (Optional) Remove the `images.remotePatterns` entry in `next.config.ts` once Unsplash is no longer used.
+
+### 5. Service areas
+
+Edit the `SERVICE_AREAS` array in `components/sections/Footer.tsx`.
+
+## Design tokens
+
+Brand colors live in `app/globals.css` under `@theme`:
+
+| Token                  | Hex     | Use                              |
+| ---------------------- | ------- | -------------------------------- |
+| `--color-pink-primary` | #D98FA2 | Primary CTAs, accents            |
+| `--color-pink-soft`    | #EFC6D2 | Soft backgrounds, rings          |
+| `--color-pink-blush`   | #F7E1E7 | Subtle bg tints                  |
+| `--color-pink-dusty`   | #C9778E | Gradient stops, hover states     |
+| `--color-pink-deep`    | #A8536A | Headings/eyebrow accent          |
+| `--color-cream`        | #FAF7F8 | Page background                  |
+| `--color-sage`         | #B8C7B2 | Secondary nature tone            |
+| `--color-yellow-warm`  | #F5C94A | Warm accent (mulch icon chip)    |
+| `--color-lavender`     | #E8DFF0 | Testimonials section bg          |
+
+Use them as Tailwind classes: `bg-pink-primary`, `text-pink-deep`, `ring-pink-soft`, etc.
+
+## Project structure
+
+```
+app/
+  layout.tsx           # fonts, metadata, OG, Nav + FloatingQuoteButton
+  page.tsx             # composes all 8 sections + bow dividers
+  globals.css          # Tailwind v4 @theme tokens
+components/
+  Nav.tsx              # sticky transparent navbar + mobile sheet
+  FloatingQuoteButton.tsx
+  sections/            # Hero, About, Services, WhyChooseUs, Gallery, Testimonials, QuoteCTA, Footer
+  ui/                  # Button, SectionHeading, Container, FadeUp
+  decorative/          # Bow, Star, Petal/Leaf, PetalDrift, BowDivider, SocialIcons
+lib/
+  cn.ts                # className helper
+public/
+  favicon.svg          # pink bow favicon
+  logo-placeholder.svg # horizontal wordmark preview
+```
+
+## Deploy
+
+The project is Vercel-ready. Push to a Git repo and import in Vercel — no extra config needed.
+
+If you set `NEXT_PUBLIC_JOTFORM_ID`, add it as a Vercel environment variable too.
