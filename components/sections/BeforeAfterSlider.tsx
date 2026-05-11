@@ -18,6 +18,12 @@ export default function BeforeAfterSlider() {
   return (
     <ReactCompareSlider
       className="aspect-[16/9]"
+      // On touch devices the library defaults to handle-only dragging,
+      // which makes the slider feel broken on phones because tapping the
+      // photo itself does nothing. Force the entire surface to be
+      // interactive so users can tap or drag anywhere — vertical page
+      // scrolling still works thanks to the library's `touch-action: pan-y`.
+      onlyHandleDraggable={false}
       handle={
         <div className="flex h-12 w-12 items-center justify-center rounded-full bg-cream text-pink-deep shadow-bloom ring-2 ring-pink-primary">
           <ChevronsLeftRight className="h-5 w-5" />

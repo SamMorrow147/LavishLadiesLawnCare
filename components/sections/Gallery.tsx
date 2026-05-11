@@ -66,8 +66,8 @@ export function Gallery() {
           />
         </FadeUp>
 
-        <FadeUp delay={0.1} className="mt-14">
-          <div className="relative overflow-hidden rounded-[2rem] shadow-bloom ring-1 ring-pink-soft/60">
+        <FadeUp delay={0.1} className="mt-14 -mx-6 md:mx-0">
+          <div className="relative overflow-hidden md:rounded-[2rem] md:shadow-bloom md:ring-1 md:ring-pink-soft/60">
             <BeforeAfterSlider />
             <div className="pointer-events-none absolute left-5 top-5 rounded-full bg-cream/90 px-3 py-1 text-xs font-medium uppercase tracking-[0.25em] text-ink-soft backdrop-blur-sm">
               Before
