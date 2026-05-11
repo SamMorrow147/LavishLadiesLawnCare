@@ -134,21 +134,40 @@ export function GrassMower() {
     <div
       ref={stripRef}
       aria-hidden="true"
-      className="pointer-events-none fixed inset-x-0 bottom-0 z-20 select-none overflow-hidden"
+      className="pointer-events-none fixed inset-x-0 z-20 select-none overflow-hidden"
       style={{
+        // iOS Safari with viewport-fit=cover still anchors `bottom: 0` at the
+        // top of the safe-area inset (above the home indicator and URL bar),
+        // so we push the strip down by that amount and grow its height by
+        // the same to keep the blades at their visible-content baseline.
+        bottom: "calc(-1 * env(safe-area-inset-bottom, 0px))",
         height: "calc(60px + env(safe-area-inset-bottom, 0px))",
         contain: "layout paint",
       }}
     >
+      {/* Lawn floor — a solid sage band that fills the safe-area zone
+          beneath the blades so the area behind the iOS URL pill doesn't
+          show cream from the page. On desktop env(...) collapses to 0
+          and this element vanishes. */}
+      <div
+        aria-hidden="true"
+        className="absolute inset-x-0 bottom-0"
+        style={{
+          height: "env(safe-area-inset-bottom, 0px)",
+          background: "linear-gradient(to bottom, #8bbf8a, #5a8859)",
+        }}
+      />
+
       {BLADES.map((b, i) => (
         <div
           key={i}
           ref={(el) => {
             bladesRef.current[i] = el;
           }}
-          className="grass-blade absolute bottom-0"
+          className="grass-blade absolute"
           style={
             {
+              bottom: "env(safe-area-inset-bottom, 0px)",
               left: b.leftPct,
               width: b.widthPx,
               height: b.heightPx,
