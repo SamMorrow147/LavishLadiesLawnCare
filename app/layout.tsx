@@ -101,23 +101,19 @@ export default function RootLayout({
         </a>
         <Nav />
         <main id="main">{children}</main>
-        {/* iOS Safari URL-bar tint layers. Safari's "Liquid Glass" bottom
-            toolbar samples colors from fixed/sticky elements near the
-            viewport edge and uses them to tint the URL pill chrome. Two
-            stacked elements feed the sample:
-              1. .safari-bottom-base — a solid #6da76f bar flush against
-                 the very bottom edge, full width, providing a strong,
-                 unambiguous green anchor for Safari to read.
-              2. .safari-bottom-tint — sits above the base, carries an
-                 inner 100vh fade so the visible blend up into the grass
-                 reads softly instead of cutting off at a hard edge.
-            Both are gated to iOS WebKit in globals.css so Android Chrome
-            shows no green band — the grass runs flush to the edge there.
-            Both sit below the grass (z-index 0/1 vs grass's z-index 20). */}
-        <div aria-hidden="true" className="safari-bottom-base" />
-        <div aria-hidden="true" className="safari-bottom-tint">
-          <div className="safari-bottom-fill" />
-        </div>
+        {/* iOS Safari URL-bar fade. A single fixed element pinned to the
+            very bottom edge of the viewport. Its background is a vertical
+            gradient that's transparent at the top (so the page above the
+            grass stays cream) and ramps to solid #6da76f at the bottom,
+            so the strip behind the Safari URL pill is a strong, solid
+            block of green. With viewport-fit=cover that bottom edge sits
+            behind the Safari chrome, which "Liquid Glass" then samples
+            to tint the URL pill green. Gated to iOS WebKit in globals
+            .css (display: none everywhere else), so Android Chrome and
+            desktop browsers see nothing and the grass runs flush to the
+            viewport edge there. Sits below the grass (z-index 0 vs
+            grass's z-index 20) so the grass paints in front normally. */}
+        <div aria-hidden="true" className="safari-bottom-fade" />
         <GrassMower />
         <FloatingQuoteButton />
       </body>
