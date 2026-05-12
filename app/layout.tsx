@@ -101,17 +101,20 @@ export default function RootLayout({
         </a>
         <Nav />
         <main id="main">{children}</main>
-        {/* iOS Safari URL-bar tint layer. Safari's "Liquid Glass" bottom
+        {/* iOS Safari URL-bar tint layers. Safari's "Liquid Glass" bottom
             toolbar samples colors from fixed/sticky elements near the
-            viewport edge and uses them to tint the URL pill chrome. This
-            element exists only to exploit that sampling: the 48px-tall
-            fixed parent sits flush with the bottom edge so Safari counts
-            it as an edge-adjacent element, while the inner fill carries an
-            actual 100vh column of green pixels (transparent at the top,
-            solid #6da76f at the bottom) for Safari to read. Gated to iOS
-            WebKit via @supports in globals.css so Chrome on Android shows
-            no fill at all and the grass goes flush to the viewport edge.
-            Sits below the grass (z-index 1 vs grass's z-index 20). */}
+            viewport edge and uses them to tint the URL pill chrome. Two
+            stacked elements feed the sample:
+              1. .safari-bottom-base — a solid #6da76f bar flush against
+                 the very bottom edge, full width, providing a strong,
+                 unambiguous green anchor for Safari to read.
+              2. .safari-bottom-tint — sits above the base, carries an
+                 inner 100vh fade so the visible blend up into the grass
+                 reads softly instead of cutting off at a hard edge.
+            Both are gated to iOS WebKit in globals.css so Android Chrome
+            shows no green band — the grass runs flush to the edge there.
+            Both sit below the grass (z-index 0/1 vs grass's z-index 20). */}
+        <div aria-hidden="true" className="safari-bottom-base" />
         <div aria-hidden="true" className="safari-bottom-tint">
           <div className="safari-bottom-fill" />
         </div>

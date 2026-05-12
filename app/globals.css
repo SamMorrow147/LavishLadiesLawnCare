@@ -42,26 +42,44 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
-/* iOS Safari only — bottom URL-bar tint layer.
+/* iOS Safari only — bottom URL-bar tint layers.
    Safari's bottom toolbar samples colors from fixed elements at the
-   viewport edge ("Liquid Glass" tinting). We give it a fixed element
-   whose inner fill is a tall column of green pixels so the URL pill
-   picks up green from the grass section. Gated to iOS WebKit via
-   `-webkit-touch-callout` so Android Chrome (which doesn't sample
-   page chrome) gets no fill — the grass simply runs to the edge.
+   viewport edge ("Liquid Glass" tinting). Two stacked fixed elements
+   feed Safari the green pixels it needs:
 
-   IMPORTANT: We do NOT paint the body green here. The page's cream
-   palette must remain untouched everywhere except the URL-pill
-   region. The fixed fill alone gives Safari the green pixels it
-   needs at the bottom edge.
+   - .safari-bottom-base: solid #6da76f across the bottom edge. This
+     is the strongest, simplest signal for Safari's sampling and also
+     reads visibly as the green "floor" under the grass.
+   - .safari-bottom-tint: a soft fade above the base so the transition
+     up into the page content blends instead of hard-edging.
 
-   Outside @supports the parent is `display: none` so non-iOS
+   Gated to iOS WebKit via `-webkit-touch-callout` so Android Chrome
+   (which doesn't sample page chrome and where the user explicitly
+   doesn't want a green band) gets nothing — the grass runs flush
+   to the viewport edge. We never paint the body green; the page's
+   cream palette stays untouched everywhere except this bottom strip.
+
+   Outside @supports both layers are `display: none` so non-iOS
    browsers don't render or sample anything. */
+.safari-bottom-base,
 .safari-bottom-tint {
   display: none;
 }
 
 @supports (-webkit-touch-callout: none) {
+  .safari-bottom-base {
+    display: block;
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    width: 100vw;
+    height: 96px;
+    background: #6da76f;
+    pointer-events: none;
+    z-index: 0;
+  }
+
   .safari-bottom-tint {
     display: block;
     position: fixed;
