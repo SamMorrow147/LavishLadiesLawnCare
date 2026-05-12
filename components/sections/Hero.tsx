@@ -37,9 +37,18 @@ export function Hero() {
 
       <Container className="relative">
         <div
-          className="hero-reveal mx-auto mb-10 flex max-w-3xl justify-center md:mb-14"
+          className="hero-reveal relative mx-auto mb-10 flex max-w-3xl justify-center md:mb-14"
           style={{ animationDelay: "0ms" }}
         >
+          <div
+            aria-hidden="true"
+            className="pointer-events-none absolute left-1/2 top-1/2 -z-10 h-[120%] w-[110%] -translate-x-1/2 -translate-y-1/2 rounded-full"
+            style={{
+              background:
+                "radial-gradient(closest-side, rgba(255,255,255,0.95) 0%, rgba(255,255,255,0.7) 30%, rgba(255,255,255,0.35) 55%, rgba(255,255,255,0) 78%)",
+              filter: "blur(28px)",
+            }}
+          />
           <Image
             src="/Logo.png"
             alt="Lavish Ladies Lawn Care"
@@ -47,7 +56,7 @@ export function Hero() {
             height={545}
             priority
             sizes="(min-width: 1024px) 720px, (min-width: 640px) 65vw, 80vw"
-            className="block h-auto w-[280px] select-none sm:w-[420px] md:w-[560px] lg:w-[680px]"
+            className="relative block h-auto w-[280px] select-none sm:w-[420px] md:w-[560px] lg:w-[680px]"
             style={{ aspectRatio: "895 / 545" }}
           />
         </div>

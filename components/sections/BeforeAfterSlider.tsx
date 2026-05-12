@@ -1,5 +1,6 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import {
   ReactCompareSlider,
   ReactCompareSliderImage,
@@ -15,9 +16,25 @@ import { ChevronsLeftRight } from "lucide-react";
  * `ssr: false` so it's only ever rendered in the browser.
  */
 export default function BeforeAfterSlider() {
+  // On hover-capable devices (desktops with a precise pointer) we let the
+  // divider follow the cursor so the reveal happens passively — no click
+  // or drag needed. Touch / coarse-pointer devices keep the standard
+  // drag-to-reveal interaction since "hover" there is awkward.
+  const [followCursor, setFollowCursor] = useState(false);
+
+  useEffect(() => {
+    const mq = window.matchMedia("(hover: hover) and (pointer: fine)");
+    const update = () => setFollowCursor(mq.matches);
+    update();
+    mq.addEventListener("change", update);
+    return () => mq.removeEventListener("change", update);
+  }, []);
+
   return (
     <ReactCompareSlider
       className="aspect-[16/9]"
+      changePositionOnHover={followCursor}
+      transition={followCursor ? ".15s ease-out" : undefined}
       // On touch devices the library defaults to handle-only dragging,
       // which makes the slider feel broken on phones because tapping the
       // photo itself does nothing. Force the entire surface to be
