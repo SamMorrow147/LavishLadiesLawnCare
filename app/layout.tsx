@@ -84,21 +84,22 @@ export default function RootLayout({
         </a>
         <Nav />
         <main id="main">{children}</main>
-        {/* iOS Safari safe-area backdrop: a fixed sage band anchored at the
-            true viewport bottom. With viewport-fit=cover this paints behind
-            the translucent URL pill so the chrome zone reads as continuous
-            lawn instead of the page's cream background. Height is additive
-            (env + URL-pill chrome differential + 8px overshoot) so it covers
-            both the home-indicator inset and the dynamic URL-pill area on
-            every iOS version. Collapses to an 8px sliver on Android /
-            desktop / older iOS where env and (100lvh - 100dvh) are 0,
-            tucked invisibly behind the GrassMower strip above. */}
+        {/* iOS Safari safe-area backdrop: pinned by its top edge to the same
+            visual baseline as the GrassMower strip's bottom (100dvh - safe-
+            area-inset-bottom). From there it extends downward through the
+            cream gap (100lvh - 100dvh) and into the URL pill chrome zone
+            (env safe-area-inset-bottom), with a small overshoot so seams
+            never reveal cream. Anchoring from the top instead of bottom: 0
+            avoids iOS Safari's inconsistent visual-viewport vs layout-
+            viewport interpretation that was leaving this band stacked
+            behind the grass instead of filling the space below it. */}
         <div
           aria-hidden="true"
-          className="pointer-events-none fixed inset-x-0 bottom-0 select-none"
+          className="pointer-events-none fixed inset-x-0 select-none"
           style={{
+            top: "calc(100dvh - env(safe-area-inset-bottom, 0px))",
             height:
-              "calc(env(safe-area-inset-bottom, 0px) + (100lvh - 100dvh) + 8px)",
+              "calc(env(safe-area-inset-bottom, 0px) + (100lvh - 100dvh) + 28px)",
             background:
               "linear-gradient(to bottom, #8bbf8a 0%, #6da76f 55%, #4a7a52 100%)",
             zIndex: 1,
