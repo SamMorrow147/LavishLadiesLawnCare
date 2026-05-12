@@ -27,6 +27,14 @@ import { useEffect, useRef } from "react";
  *     transitions.
  *   - Strip fades out smoothly in the last 220px of the document so the
  *     footer reads cleanly.
+ *   - The strip carries a solid-to-transparent green gradient as its
+ *     background. The solid base at the bottom edge serves two purposes on
+ *     mobile: it tints iOS Safari's translucent bottom URL bar (which
+ *     samples content directly above it) so the chrome reads as grass, and
+ *     it gives Android Chrome / PWA modes real "ground" beneath the blades.
+ *     Mobile browsers will never let a fixed element render behind their
+ *     dynamic toolbars, but the tinted bar sells the illusion of a true
+ *     edge-to-edge lawn.
  */
 
 const BLADE_COUNT = 360;
@@ -135,9 +143,21 @@ export function GrassMower() {
       aria-hidden="true"
       className="pointer-events-none fixed inset-x-0 z-20 select-none overflow-hidden"
       style={{
-        bottom: "env(safe-area-inset-bottom, 0px)",
-        height: "60px",
+        bottom: 0,
+        height: "78px",
         contain: "layout paint",
+        // Ground fade. The opaque base at the bottom anchors the strip to the
+        // physical bottom edge in two ways: (1) iOS Safari's translucent bottom
+        // URL bar samples and blurs the content immediately above it, so a
+        // solid grass-green band at `bottom: 0` tints the bar grass-colored —
+        // the eye reads it as the lawn continuing behind the chrome rather
+        // than a fixed strip floating above it. (2) On Android Chrome and in
+        // PWA / standalone modes where the toolbar isn't there, the base
+        // simply renders as ground beneath the blades. The fade to transparent
+        // up top keeps the transition into the page background seamless on
+        // desktop.
+        background:
+          "linear-gradient(to top, #6b9b6a 0%, rgba(107,155,106,0.85) 18%, rgba(107,155,106,0.35) 45%, rgba(107,155,106,0) 78%)",
       }}
     >
       {BLADES.map((b, i) => (
