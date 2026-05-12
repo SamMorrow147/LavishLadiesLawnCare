@@ -74,39 +74,6 @@ const BLADES: BladeSpec[] = Array.from({ length: BLADE_COUNT }, (_, i) => {
   };
 });
 
-/**
- * Short static stubble blades that carpet the iOS safe-area zone behind
- * the Safari URL pill. Same hash + toFixed determinism as the tall
- * blades, so SSR and CSR emit byte-identical markup. On platforms where
- * env(safe-area-inset-bottom) and (100lvh - 100dvh) collapse to 0, the
- * carpet's container collapses to an 8px sliver that's hidden behind
- * the tall-blade strip.
- */
-const STUBBLE_COUNT = 140;
-
-const STUBBLE: BladeSpec[] = Array.from({ length: STUBBLE_COUNT }, (_, i) => {
-  const t = i / (STUBBLE_COUNT - 1);
-  const r1 = hash(i + 503);
-  const r2 = hash(i + 607);
-  const r3 = hash(i + 709);
-  const r4 = hash(i + 811);
-  const r5 = hash(i + 919);
-  const left = t * 100 + (r1 - 0.5) * (100 / STUBBLE_COUNT) * 1.5;
-  const height = 4 + r2 * 10;
-  const width = 1.2 + r3 * 1.2;
-  const skew = (r4 - 0.5) * 16;
-  const hue = HUES[Math.floor(r5 * HUES.length) % HUES.length];
-  return {
-    leftPct: `${left.toFixed(4)}%`,
-    widthPx: `${width.toFixed(3)}px`,
-    heightPx: `${height.toFixed(2)}px`,
-    skewDeg: `${skew.toFixed(3)}deg`,
-    hueTop: hue.top,
-    hueBottom: hue.bottom,
-    zIndex: r5 > 0.55 ? 2 : 1,
-  };
-});
-
 export function GrassMower() {
   const stripRef = useRef<HTMLDivElement | null>(null);
   const bladesRef = useRef<(HTMLDivElement | null)[]>([]);
@@ -164,81 +131,36 @@ export function GrassMower() {
   }, []);
 
   return (
-    <>
-      {/* Stubble carpet — anchored to the dynamic viewport bottom via
-          `top: 100dvh; translateY(-100%)` so iOS Safari's documented
-          fixed-bottom displacement bug can't shift it off the screen
-          edge. Height extends past the visible viewport into the
-          URL-pill chrome (100lvh - 100dvh) and the home-indicator
-          safe-area, plus an 8px overshoot for rounding quirks. Rendered
-          BEFORE the tall-blade strip so the strip paints on top. */}
-      <div
-        aria-hidden="true"
-        className="pointer-events-none fixed inset-x-0 z-20 select-none overflow-hidden"
-        style={{
-          top: "100dvh",
-          transform: "translateY(-100%)",
-          height:
-            "calc(env(safe-area-inset-bottom, 0px) + (100lvh - 100dvh) + 8px)",
-          background:
-            "linear-gradient(to bottom, #8bbf8a 0%, #6b9b6a 55%, #4a7a52 100%)",
-          contain: "layout paint",
-        }}
-      >
-        {STUBBLE.map((s, i) => (
-          <div
-            key={i}
-            className="grass-blade absolute bottom-0"
-            style={
-              {
-                left: s.leftPct,
-                width: s.widthPx,
-                height: s.heightPx,
-                zIndex: s.zIndex,
-                backgroundImage: `linear-gradient(to top, ${s.hueBottom}, ${s.hueTop})`,
-                clipPath: "polygon(50% 0%, 100% 100%, 0% 100%)",
-                "--blade-skew": s.skewDeg,
-              } as React.CSSProperties
-            }
-          />
-        ))}
-      </div>
-
-      {/* Tall animated blade strip — anchored at the visible-content
-          baseline by lifting `bottom` by env(safe-area-inset-bottom).
-          Cut/reset behavior, fade-near-footer, and reduced-motion
-          handling all live on this element. */}
-      <div
-        ref={stripRef}
-        aria-hidden="true"
-        className="pointer-events-none fixed inset-x-0 z-20 select-none overflow-hidden"
-        style={{
-          bottom: "env(safe-area-inset-bottom, 0px)",
-          height: "60px",
-          contain: "layout paint",
-        }}
-      >
-        {BLADES.map((b, i) => (
-          <div
-            key={i}
-            ref={(el) => {
-              bladesRef.current[i] = el;
-            }}
-            className="grass-blade absolute bottom-0"
-            style={
-              {
-                left: b.leftPct,
-                width: b.widthPx,
-                height: b.heightPx,
-                zIndex: b.zIndex,
-                backgroundImage: `linear-gradient(to top, ${b.hueBottom}, ${b.hueTop})`,
-                clipPath: "polygon(50% 0%, 100% 100%, 0% 100%)",
-                "--blade-skew": b.skewDeg,
-              } as React.CSSProperties
-            }
-          />
-        ))}
-      </div>
-    </>
+    <div
+      ref={stripRef}
+      aria-hidden="true"
+      className="pointer-events-none fixed inset-x-0 z-20 select-none overflow-hidden"
+      style={{
+        bottom: "env(safe-area-inset-bottom, 0px)",
+        height: "60px",
+        contain: "layout paint",
+      }}
+    >
+      {BLADES.map((b, i) => (
+        <div
+          key={i}
+          ref={(el) => {
+            bladesRef.current[i] = el;
+          }}
+          className="grass-blade absolute bottom-0"
+          style={
+            {
+              left: b.leftPct,
+              width: b.widthPx,
+              height: b.heightPx,
+              zIndex: b.zIndex,
+              backgroundImage: `linear-gradient(to top, ${b.hueBottom}, ${b.hueTop})`,
+              clipPath: "polygon(50% 0%, 100% 100%, 0% 100%)",
+              "--blade-skew": b.skewDeg,
+            } as React.CSSProperties
+          }
+        />
+      ))}
+    </div>
   );
 }
