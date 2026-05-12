@@ -1,9 +1,12 @@
 import type { Metadata, Viewport } from "next";
 import { Poiret_One, Poppins } from "next/font/google";
+import Script from "next/script";
 import { Nav } from "@/components/Nav";
 import { FloatingQuoteButton } from "@/components/FloatingQuoteButton";
 import { GrassMower } from "@/components/decorative/GrassMower";
 import "./globals.css";
+
+const GA_MEASUREMENT_ID = "G-R5F9BCWK3L";
 
 const display = Poiret_One({
   weight: "400",
@@ -75,6 +78,20 @@ export default function RootLayout({
       lang="en"
       className={`${display.variable} ${body.variable} h-full antialiased`}
     >
+      <head>
+        <Script
+          src={`https://www.googletagmanager.com/gtag/js?id=${GA_MEASUREMENT_ID}`}
+          strategy="afterInteractive"
+        />
+        <Script id="google-analytics" strategy="afterInteractive">
+          {`
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', '${GA_MEASUREMENT_ID}');
+          `}
+        </Script>
+      </head>
       <body className="min-h-full bg-cream text-ink">
         <a
           href="#main"
