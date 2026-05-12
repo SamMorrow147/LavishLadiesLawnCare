@@ -4,11 +4,11 @@ import { useEffect, useRef } from "react";
 
 /**
  * GrassMower — a fixed strip of stylized grass blades at the bottom of the
- * viewport. As the user scrolls the page, blades are "sliced" left-to-right
+ * viewport. As the user scrolls down, blades are "sliced" left-to-right
  * (a CSS transition collapses each blade's `scaleY`) following the overall
- * scroll progress. Cuts are monotonic — they persist as the user scrolls
- * back up — until the user reaches the very top, at which point every blade
- * is reset and the cycle starts over.
+ * scroll progress. Scrolling back up reverses the cut threshold so blades
+ * grow back right-to-left — a mirror of the cutting pass — until the page
+ * is fully scrolled to the top and every blade is restored.
  *
  * Design choices:
  *   - No visible mower. The slicing effect itself reads as a grooming pass.
@@ -20,7 +20,9 @@ import { useEffect, useRef } from "react";
  *     hydration).
  *   - Zero React re-renders after mount; cut state lives in a `ref` and is
  *     applied via direct `classList.add/remove` on each blade element.
- *   - One rAF-throttled scroll listener doing only cheap reads.
+ *   - One rAF-throttled scroll listener doing only cheap reads. Each frame
+ *     only touches the blades whose state actually changed (the delta
+ *     between the previous and current cut index).
  *   - `prefers-reduced-motion` users get blades at full height with no
  *     transitions.
  *   - Strip fades out smoothly in the last 220px of the document so the
@@ -77,7 +79,7 @@ const BLADES: BladeSpec[] = Array.from({ length: BLADE_COUNT }, (_, i) => {
 export function GrassMower() {
   const stripRef = useRef<HTMLDivElement | null>(null);
   const bladesRef = useRef<(HTMLDivElement | null)[]>([]);
-  const maxCut = useRef(0);
+  const cutIndex = useRef(0);
 
   useEffect(() => {
     if (typeof window === "undefined") return;
@@ -91,23 +93,20 @@ export function GrassMower() {
       const y = window.scrollY;
       const progress = Math.min(1, Math.max(0, y / scrollMax));
 
-      if (y < 6 && maxCut.current > 0) {
-        maxCut.current = 0;
-        const blades = bladesRef.current;
-        for (let i = 0; i < blades.length; i++) {
+      const targetIndex = Math.ceil(progress * BLADE_COUNT);
+      const prevIndex = cutIndex.current;
+      const blades = bladesRef.current;
+
+      if (targetIndex > prevIndex) {
+        for (let i = prevIndex; i < targetIndex && i < BLADE_COUNT; i++) {
+          blades[i]?.classList.add("cut");
+        }
+      } else if (targetIndex < prevIndex) {
+        for (let i = prevIndex - 1; i >= targetIndex && i >= 0; i--) {
           blades[i]?.classList.remove("cut");
         }
       }
-
-      if (progress > maxCut.current) {
-        const fromIndex = Math.ceil(maxCut.current * BLADE_COUNT);
-        const toIndex = Math.ceil(progress * BLADE_COUNT);
-        const blades = bladesRef.current;
-        for (let i = fromIndex; i < toIndex && i < BLADE_COUNT; i++) {
-          blades[i]?.classList.add("cut");
-        }
-        maxCut.current = progress;
-      }
+      cutIndex.current = targetIndex;
 
       if (stripRef.current) {
         const distFromBottom = scrollMax - y;
