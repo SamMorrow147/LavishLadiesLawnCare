@@ -92,7 +92,7 @@ export default function RootLayout({
           `}
         </Script>
       </head>
-      <body className="min-h-full text-ink">
+      <body className="min-h-full bg-cream text-ink">
         <a
           href="#main"
           className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[100] focus:rounded-full focus:bg-pink-primary focus:px-4 focus:py-2 focus:text-cream"

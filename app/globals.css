@@ -45,29 +45,23 @@ body {
 /* iOS Safari only — bottom URL-bar tint layer.
    Safari's bottom toolbar samples colors from fixed elements at the
    viewport edge ("Liquid Glass" tinting). We give it a fixed element
-   whose inner fill is a tall column of green pixels so the chrome
-   blends into the grass section. Gated to iOS WebKit via
+   whose inner fill is a tall column of green pixels so the URL pill
+   picks up green from the grass section. Gated to iOS WebKit via
    `-webkit-touch-callout` so Android Chrome (which doesn't sample
    page chrome) gets no fill — the grass simply runs to the edge.
 
-   Notes:
-   - Outside @supports the parent is `display: none` so non-iOS
-     browsers don't render or sample anything.
-   - Body is also painted green on iOS as a secondary sample source
-     for Safari in case the fixed layer is missed.
-   - The fill child is intentionally 100vh tall (overflows the 48px
-     parent). Safari samples element pixels, not just the visible
-     window, so the full gradient feeds the toolbar tint. */
+   IMPORTANT: We do NOT paint the body green here. The page's cream
+   palette must remain untouched everywhere except the URL-pill
+   region. The fixed fill alone gives Safari the green pixels it
+   needs at the bottom edge.
+
+   Outside @supports the parent is `display: none` so non-iOS
+   browsers don't render or sample anything. */
 .safari-bottom-tint {
   display: none;
 }
 
 @supports (-webkit-touch-callout: none) {
-  html,
-  body {
-    background-color: #6da76f;
-  }
-
   .safari-bottom-tint {
     display: block;
     position: fixed;
