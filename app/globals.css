@@ -42,57 +42,6 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
-/* iOS Safari only — bottom URL-pill fade.
-   One fixed element flush against the viewport bottom edge with a
-   vertical gradient:
-     - Transparent at the top (so the page above the grass stays
-       cream — no whole-page green wash).
-     - Ramps through a soft mid-tone behind the grass blades.
-     - Solid #6da76f for the bottom ~40% of the element so the strip
-       behind the Safari URL pill is an unambiguous block of green.
-
-   With viewport-fit=cover the bottom edge of the page extends behind
-   Safari's chrome, so this solid green floor is exactly what Safari's
-   Liquid Glass samples to tint the URL pill green. Sits at z-index 0
-   so the grass (z-index 20) paints in front of it.
-
-   Outside @supports the element is `display: none`, so Android Chrome
-   and desktop browsers render nothing and the grass runs flush to
-   the viewport edge there. */
-.safari-bottom-fade {
-  display: none;
-}
-
-@supports (-webkit-touch-callout: none) {
-  .safari-bottom-fade {
-    display: block;
-    position: fixed;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    width: 100vw;
-    /* 280px tall and stretched by the home-indicator inset so the green
-       reaches the *physical* bottom edge under viewport-fit=cover.
-       The bottom half (50%–100% ≈ 140px+) is solid #6da76f — a big
-       block of green flush against the bottom, comfortably covering
-       the grass-to-URL-pill gap, the URL pill itself, and the home-
-       indicator strip. The top half fades transparent so nothing
-       washes the page content above the grass. */
-    height: calc(280px + env(safe-area-inset-bottom, 0px));
-    background: linear-gradient(
-      to bottom,
-      rgba(109, 167, 111, 0) 0%,
-      rgba(109, 167, 111, 0) 20%,
-      rgba(109, 167, 111, 0.4) 35%,
-      rgba(109, 167, 111, 0.85) 45%,
-      #6da76f 50%,
-      #6da76f 100%
-    );
-    pointer-events: none;
-    z-index: 0;
-  }
-}
-
 ::selection {
   background: var(--color-pink-soft);
   color: var(--color-pink-deep);

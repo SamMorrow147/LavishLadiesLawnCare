@@ -101,19 +101,6 @@ export default function RootLayout({
         </a>
         <Nav />
         <main id="main">{children}</main>
-        {/* iOS Safari URL-bar fade. A single fixed element pinned to the
-            very bottom edge of the viewport. Its background is a vertical
-            gradient that's transparent at the top (so the page above the
-            grass stays cream) and ramps to solid #6da76f at the bottom,
-            so the strip behind the Safari URL pill is a strong, solid
-            block of green. With viewport-fit=cover that bottom edge sits
-            behind the Safari chrome, which "Liquid Glass" then samples
-            to tint the URL pill green. Gated to iOS WebKit in globals
-            .css (display: none everywhere else), so Android Chrome and
-            desktop browsers see nothing and the grass runs flush to the
-            viewport edge there. Sits below the grass (z-index 0 vs
-            grass's z-index 20) so the grass paints in front normally. */}
-        <div aria-hidden="true" className="safari-bottom-fade" />
         <GrassMower />
         <FloatingQuoteButton />
       </body>
