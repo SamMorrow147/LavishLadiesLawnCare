@@ -31,20 +31,8 @@
 
 html,
 body {
-  /* Cream-to-sage gradient anchored to the viewport (background-attachment:
-     fixed) so the bottom of the viewport always reads as lawn-green. With
-     viewport-fit=cover this paints behind Safari's translucent URL pill,
-     making the chrome blur sage instead of cream. */
-  background: linear-gradient(
-    to bottom,
-    var(--color-cream) 0%,
-    var(--color-cream) 78%,
-    #8bbf8a 92%,
-    #6da76f 100%
-  );
-  background-attachment: fixed;
+  background: var(--color-cream);
   color: var(--color-ink);
-  min-height: 100dvh;
 }
 
 body {

@@ -75,7 +75,7 @@ export default function RootLayout({
       lang="en"
       className={`${display.variable} ${body.variable} h-full antialiased`}
     >
-      <body className="min-h-full text-ink">
+      <body className="min-h-full bg-cream text-ink">
         <a
           href="#main"
           className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[100] focus:rounded-full focus:bg-pink-primary focus:px-4 focus:py-2 focus:text-cream"
@@ -84,6 +84,26 @@ export default function RootLayout({
         </a>
         <Nav />
         <main id="main">{children}</main>
+        {/* iOS Safari safe-area backdrop: a fixed sage band anchored at the
+            true viewport bottom. With viewport-fit=cover this paints behind
+            the translucent URL pill so the chrome zone reads as continuous
+            lawn instead of the page's cream background. Height is additive
+            (env + URL-pill chrome differential + 8px overshoot) so it covers
+            both the home-indicator inset and the dynamic URL-pill area on
+            every iOS version. Collapses to an 8px sliver on Android /
+            desktop / older iOS where env and (100lvh - 100dvh) are 0,
+            tucked invisibly behind the GrassMower strip above. */}
+        <div
+          aria-hidden="true"
+          className="pointer-events-none fixed inset-x-0 bottom-0 select-none"
+          style={{
+            height:
+              "calc(env(safe-area-inset-bottom, 0px) + (100lvh - 100dvh) + 8px)",
+            background:
+              "linear-gradient(to bottom, #8bbf8a 0%, #6da76f 55%, #4a7a52 100%)",
+            zIndex: 1,
+          }}
+        />
         <GrassMower />
         <FloatingQuoteButton />
       </body>
