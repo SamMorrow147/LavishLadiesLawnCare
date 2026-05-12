@@ -92,7 +92,7 @@ export default function RootLayout({
           `}
         </Script>
       </head>
-      <body className="min-h-full bg-cream text-ink">
+      <body className="min-h-full text-ink">
         <a
           href="#main"
           className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[100] focus:rounded-full focus:bg-pink-primary focus:px-4 focus:py-2 focus:text-cream"
@@ -101,27 +101,20 @@ export default function RootLayout({
         </a>
         <Nav />
         <main id="main">{children}</main>
-        {/* iOS Safari safe-area backdrop: pinned by its top edge to the same
-            visual baseline as the GrassMower strip's bottom (100dvh - safe-
-            area-inset-bottom). From there it extends downward through the
-            cream gap (100lvh - 100dvh) and into the URL pill chrome zone
-            (env safe-area-inset-bottom), with a small overshoot so seams
-            never reveal cream. Anchoring from the top instead of bottom: 0
-            avoids iOS Safari's inconsistent visual-viewport vs layout-
-            viewport interpretation that was leaving this band stacked
-            behind the grass instead of filling the space below it. */}
-        <div
-          aria-hidden="true"
-          className="pointer-events-none fixed inset-x-0 select-none"
-          style={{
-            top: "calc(100dvh - env(safe-area-inset-bottom, 0px))",
-            height:
-              "calc(env(safe-area-inset-bottom, 0px) + (100lvh - 100dvh) + 28px)",
-            background:
-              "linear-gradient(to bottom, #8bbf8a 0%, #6da76f 55%, #4a7a52 100%)",
-            zIndex: 1,
-          }}
-        />
+        {/* iOS Safari URL-bar tint layer. Safari's "Liquid Glass" bottom
+            toolbar samples colors from fixed/sticky elements near the
+            viewport edge and uses them to tint the URL pill chrome. This
+            element exists only to exploit that sampling: the 48px-tall
+            fixed parent sits flush with the bottom edge so Safari counts
+            it as an edge-adjacent element, while the inner fill carries an
+            actual 100vh column of green pixels (transparent at the top,
+            solid #6da76f at the bottom) for Safari to read. Gated to iOS
+            WebKit via @supports in globals.css so Chrome on Android shows
+            no fill at all and the grass goes flush to the viewport edge.
+            Sits below the grass (z-index 1 vs grass's z-index 20). */}
+        <div aria-hidden="true" className="safari-bottom-tint">
+          <div className="safari-bottom-fill" />
+        </div>
         <GrassMower />
         <FloatingQuoteButton />
       </body>
