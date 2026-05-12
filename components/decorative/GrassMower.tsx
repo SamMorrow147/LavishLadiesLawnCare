@@ -136,8 +136,14 @@ export function GrassMower() {
       aria-hidden="true"
       className="pointer-events-none fixed inset-x-0 z-20 select-none overflow-hidden"
       style={{
-        bottom: "env(safe-area-inset-bottom, 0px)",
-        height: "60px",
+        // Anchor at the true viewport bottom and extend the strip's footprint
+        // down through Safari's safe-area inset. With viewport-fit=cover the
+        // page paints behind the URL pill, so the lower env() portion of the
+        // strip blends naturally into the chrome zone (helped by the body's
+        // cream-to-sage gradient below it).
+        bottom: "0",
+        height: "calc(60px + env(safe-area-inset-bottom, 0px))",
+        paddingBottom: "env(safe-area-inset-bottom, 0px)",
         contain: "layout paint",
       }}
     >
@@ -147,9 +153,14 @@ export function GrassMower() {
           ref={(el) => {
             bladesRef.current[i] = el;
           }}
-          className="grass-blade absolute bottom-0"
+          className="grass-blade absolute"
           style={
             {
+              // Pin blades to the visible-content baseline rather than the
+              // strip's true bottom, so they still stand exactly where the
+              // user sees them today even though the strip now reaches the
+              // physical screen edge.
+              bottom: "env(safe-area-inset-bottom, 0px)",
               left: b.leftPct,
               width: b.widthPx,
               height: b.heightPx,
