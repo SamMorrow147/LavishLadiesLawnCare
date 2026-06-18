@@ -62,13 +62,13 @@ function QuoteFormPlaceholder() {
       <ul className="mt-7 space-y-3 text-sm">
         <li className="flex items-center gap-3 rounded-2xl bg-pink-blush/40 px-4 py-3">
           <Phone className="h-4 w-4 text-pink-deep" />
-          <a href="tel:+13205550000" className="font-medium text-ink hover:text-pink-deep">
-            (320) 555-0000
+          <a href="tel:+13202989976" className="font-medium text-ink hover:text-pink-deep">
+            320-298-9976
           </a>
         </li>
         <li className="flex items-center gap-3 rounded-2xl bg-pink-blush/40 px-4 py-3">
           <MessageCircle className="h-4 w-4 text-pink-deep" />
-          <a href="sms:+13205550000" className="font-medium text-ink hover:text-pink-deep">
+          <a href="sms:+13202989976" className="font-medium text-ink hover:text-pink-deep">
             Text us for a quick reply
           </a>
         </li>
@@ -87,10 +87,10 @@ function QuoteFormPlaceholder() {
       </ul>
 
       <div className="mt-7 flex flex-col gap-3 sm:flex-row">
-        <Button href="tel:+13205550000" size="lg" className="w-full sm:w-auto">
+        <Button href="tel:+13202989976" size="lg" className="w-full sm:w-auto">
           Call Now
         </Button>
-        <Button href="sms:+13205550000" variant="secondary" size="lg" className="w-full sm:w-auto">
+        <Button href="sms:+13202989976" variant="secondary" size="lg" className="w-full sm:w-auto">
           Send A Text
         </Button>
       </div>
@@ -125,7 +125,7 @@ export function QuoteCTA() {
 
             <div className="mt-10 space-y-4">
               <a
-                href="tel:+13205550000"
+                href="tel:+13202989976"
                 className="flex items-center gap-4 rounded-2xl bg-cream/90 px-5 py-4 ring-1 ring-pink-soft/60 shadow-petal transition-all hover:-translate-y-0.5 hover:shadow-bloom"
               >
                 <span className="flex h-11 w-11 items-center justify-center rounded-full bg-pink-primary text-cream">
@@ -136,7 +136,7 @@ export function QuoteCTA() {
                     Call Or Text
                   </p>
                   <p className="font-display text-xl text-ink">
-                    (320) 555-0000
+                    320-298-9976
                   </p>
                 </div>
               </a>

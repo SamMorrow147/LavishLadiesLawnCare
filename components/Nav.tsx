@@ -85,7 +85,7 @@ export function Nav() {
 
           <div className="hidden items-center gap-3 lg:flex">
             <Link
-              href="tel:+13205550000"
+              href="tel:+13202989976"
               className={cn(
                 "flex items-center gap-2 text-sm font-medium text-ink-soft transition-opacity duration-500 hover:text-pink-deep",
                 scrolled
@@ -94,7 +94,7 @@ export function Nav() {
               )}
             >
               <Phone className="h-4 w-4" />
-              (320) 555-0000
+              320-298-9976
             </Link>
             <Button href="#quote" size="md">
               Get A Quote
@@ -149,12 +149,12 @@ export function Nav() {
           </ul>
           <div className="mt-4 flex flex-col gap-3 border-t border-pink-soft/60 pt-5">
             <Link
-              href="tel:+13205550000"
+              href="tel:+13202989976"
               className="flex items-center gap-3 rounded-2xl bg-pink-blush/60 px-4 py-3 text-sm font-medium text-pink-deep"
               onClick={() => setOpen(false)}
             >
               <Phone className="h-4 w-4" />
-              (320) 555-0000
+              320-298-9976
             </Link>
             <Button
               href="#quote"

@@ -56,7 +56,7 @@ Search-and-replace these placeholders across the project:
 
 | Placeholder                          | Where it appears                          |
 | ------------------------------------ | ----------------------------------------- |
-| `(320) 555-0000` / `+13205550000`    | Nav, QuoteCTA, Footer                     |
+| `320-298-9976` / `+13202989976`       | Nav, QuoteCTA, Footer                     |
 | `hello@lavishladieslawncare.com`     | QuoteCTA, Footer                          |
 | `https://instagram.com/`             | Footer                                    |
 | `https://facebook.com/`              | Footer                                    |
