@@ -57,7 +57,7 @@ Search-and-replace these placeholders across the project:
 | Placeholder                          | Where it appears                          |
 | ------------------------------------ | ----------------------------------------- |
 | `320-298-9976` / `+13202989976`       | Nav, QuoteCTA, Footer                     |
-| `hello@lavishladieslawncare.com`     | QuoteCTA, Footer                          |
+| `shirleyhoff512@gmail.com`           | QuoteCTA, Footer                          |
 | `https://instagram.com/`             | Footer                                    |
 | `https://facebook.com/`              | Footer                                    |
 | `lavishladieslawncare.com` (SITE_URL)| `app/layout.tsx` metadata                 |

@@ -74,8 +74,8 @@ function QuoteFormPlaceholder() {
         </li>
         <li className="flex items-center gap-3 rounded-2xl bg-pink-blush/40 px-4 py-3">
           <Mail className="h-4 w-4 text-pink-deep" />
-          <a href="mailto:hello@lavishladieslawncare.com" className="font-medium text-ink hover:text-pink-deep">
-            hello@lavishladieslawncare.com
+          <a href="mailto:shirleyhoff512@gmail.com" className="font-medium text-ink hover:text-pink-deep">
+            shirleyhoff512@gmail.com
           </a>
         </li>
         <li className="flex items-center gap-3 rounded-2xl bg-pink-blush/40 px-4 py-3">
@@ -142,7 +142,7 @@ export function QuoteCTA() {
               </a>
 
               <a
-                href="mailto:hello@lavishladieslawncare.com"
+                href="mailto:shirleyhoff512@gmail.com"
                 className="flex items-center gap-4 rounded-2xl bg-cream/90 px-5 py-4 ring-1 ring-pink-soft/60 shadow-petal transition-all hover:-translate-y-0.5 hover:shadow-bloom"
               >
                 <span className="flex h-11 w-11 items-center justify-center rounded-full bg-pink-primary text-cream">
@@ -153,7 +153,7 @@ export function QuoteCTA() {
                     Email
                   </p>
                   <p className="font-display text-xl text-ink">
-                    hello@lavishladieslawncare.com
+                    shirleyhoff512@gmail.com
                   </p>
                 </div>
               </a>
